@@ -1,0 +1,46 @@
+create or replace procedure palindron_checker(arg in varchar2)
+as
+rev varchar2(30);
+begin
+    select reverse(arg) into rev from dual;
+    if arg = rev
+    then 
+        dbms_output.put_line(arg);
+    end if;
+
+end ;
+
+
+
+declare
+
+cursor empnames is select upper(empname) from employee;
+empname varchar2(30);
+
+begin
+    open empnames;
+    loop
+        fetch empnames into empname;
+        exit when empnames%notfound;
+        palindron_checker(empname);
+    end loop;
+    close empnames;
+end;
+
+
+
+
+
+
+output:
+
+SQL> @ C:\Users\CCL35\Desktop\khadeeja\plsql\procedures\palindrome.sql
+ 49  /
+
+Procedure created.
+
+SQL> @ C:\Users\CCL35\Desktop\khadeeja\plsql\procedures\pal.sql
+ 15  /
+ANNA
+
+PL/SQL procedure successfully completed.

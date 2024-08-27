@@ -1,0 +1,59 @@
+CREATE OR REPLACE FUNCTION manager_employee(epno CHAR)
+RETURN VARCHAR2
+IS
+    v_employee NUMBER;
+    v_manager NUMBER;
+    v_message VARCHAR2(100);
+BEGIN
+ 
+    SELECT COUNT(*) INTO v_employee FROM employee WHERE empno = epno;
+    IF v_employee > 0 THEN
+        SELECT COUNT(*) INTO v_manager FROM employee WHERE empno=epno AND job='MANAGER';
+        IF v_manager > 0 THEN
+            v_message := 'Employee with Empno ' || epno || 'is a manager of the department.';
+        ELSE
+            v_message := 'Employee with Empno ' || epno || 'is not a manager of any department.';
+        END IF;
+    ELSE
+        v_message := 'Employee with Empno ' || epno || ' does not exist.';
+    END IF;
+
+    RETURN v_message;
+END;
+/
+
+
+
+
+
+
+DECLARE
+    result_message VARCHAR2(200);
+    eno char(10);
+BEGIN
+    eno:=&eno;
+    result_message := manager_employee(eno); 
+    DBMS_OUTPUT.PUT_LINE(result_message);
+END;
+/
+
+
+
+
+
+
+
+
+ouput:
+
+SQL> @ "C:\Users\KHADEEJA C N\Desktop\record 2023_dbms\plsql\fun_manager.sql"
+
+Function created.
+
+SQL> @ "C:\Users\KHADEEJA C N\Desktop\record 2023_dbms\plsql\fun_man.sql"
+Enter value for eno: 'E0070'
+old   5:     eno:=&eno;
+new   5:     eno:='E0070';
+Employee with Empno E0070  is a manager of the department.
+
+PL/SQL procedure successfully completed.

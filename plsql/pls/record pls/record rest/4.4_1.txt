@@ -1,0 +1,48 @@
+create or replace function
+rev(empno in char)
+return char
+is
+r char(10);
+begin
+select reverse(empno) into r from dual;
+return r;
+end;
+/
+
+
+
+
+declare
+cursor c1 is select empno from employee where rownum <=5;
+emp c1%rowtype;
+rev1 char(10);
+begin
+open c1;
+fetch c1 into emp;
+while c1%found
+loop
+rev1:=rev(emp.empno);
+dbms_output.put_line(emp.empno||' '||rev1);
+fetch c1 into emp;
+end loop;
+close c1;
+end;
+/
+
+
+
+
+output:
+
+SQL> @ "C:\Users\KHADEEJA C N\Desktop\record 2023_dbms\plsql\fun_rev.sql"
+
+Function created.
+
+SQL> @ "C:\Users\KHADEEJA C N\Desktop\record 2023_dbms\plsql\function_reverse.sql"
+E0010           0100E
+E0020           0200E
+E0030           0300E
+E0050           0500E
+E0060           0600E
+
+PL/SQL procedure successfully completed.

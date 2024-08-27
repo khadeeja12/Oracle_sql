@@ -1,0 +1,29 @@
+CREATE OR REPLACE TRIGGER check_salary_range
+BEFORE INSERT OR UPDATE ON employee
+FOR EACH ROW
+DECLARE
+BEGIN
+    IF :NEW.salary < 0 OR :NEW.salary > 5000 THEN
+        RAISE_APPLICATION_ERROR(-20001, 'Salary is out of the valid range (0-5000).');
+    END IF;
+END;
+/
+
+
+
+output:
+SQL> @ "C:\Users\KHADEEJA C N\Desktop\record 2023_dbms\plsql\trigger_salary.sql"
+
+Trigger created.
+
+SQL> update empl set salary=5500 where empno='E0340';
+update employee set salary=5500 where empno='E0340'
+       *
+ERROR at line 1:
+ORA-20001: Salary is out of the valid range (0-5000).
+ORA-06512: at "SYSTEM.CHECK_SALARY_RANGE", line 4
+ORA-04088: error during execution of trigger 'SYSTEM.CHECK_SALARY_RANGE'
+
+SQL> update employee set salary=4500 where empno='E0340';
+
+1 row updated.

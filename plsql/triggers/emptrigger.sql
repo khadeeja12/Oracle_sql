@@ -1,0 +1,36 @@
+create or replace trigger emptrig before  delete  or update on employee 
+for each row
+declare
+ch varchar2(15);
+begin
+if deleting then
+ch:='delete';
+insert into auditemployee values(:old.empno,:old.empname,:old.mobile,:old.salary,:old.job,ch);
+elsif updating then
+ch:='update';
+insert into auditemployee values(:old.empno,:old.empname,:old.mobile,:old.salary,:old.job,ch);
+end if;
+end;
+
+
+
+SQL> create table auditemployee(empno char(10),empname varchar2(30),mobile number(10),salary number(10,2),job varchar2(15));
+
+Table created.
+
+
+SQL> @ C:\Users\CCL35\Desktop\khadeeja\plsql\triggers\emptrigger.sql
+ 14  /
+
+Trigger created.
+
+SQL> update employee set empname='KHADEEJA' where empno='E0340';
+
+1 row updated.
+
+SQL> select * from auditemployee;
+
+EMPNO      EMPNAME                            MOBILE     SALARY JOB             STATUS
+---------- ------------------------------ ---------- ---------- --------------- ---------------
+E0340      ANJALI NAIR                    9466976574      20370 FIELDREP        update
+

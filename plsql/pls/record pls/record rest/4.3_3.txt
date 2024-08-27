@@ -1,0 +1,155 @@
+
+create or replace procedure Proj_emp(ename in varchar2)
+as
+cursor p is select projname from emp_proj ep inner join employee e on e.empno =ep.empno inner join project p on ep.projno=p.projno where empname=ename;
+
+project_name varchar2(50);
+
+begin
+	open p;
+	
+	loop
+	fetch p into project_name;
+	exit when p%notfound;
+	
+	DBMS_OUTPUT.PUT_LINE(PROJECT_NAME); 
+	
+	end loop;
+	close p;
+
+end;
+
+
+
+
+declare
+cursor p is select empname from employee;
+e employee.empname%type;
+
+begin
+open p;
+	
+	loop
+	fetch p into e;
+	exit when p%notfound;
+        dbms_output.put_line('Name='||e);
+proj_emp(e);
+dbms_output.put_line('***************************');
+end loop;
+
+end;
+
+
+
+
+output:
+
+SQL> @ C:\Users\CCL35\Desktop\khadeeja\plsql\emp.sql
+ 20  /
+
+Procedure created.
+
+SQL> @ C:\Users\CCL35\Desktop\khadeeja\plsql\employee.sql
+ 17  /
+Name=ARNOLD LEONARD AMON
+ADMIN SERVICES
+WELD LINE AUTOMATION
+***************************
+Name=PHILIP VINCENT
+ADMIN SERVICES
+WELD LINE PLANNING
+W L PROGRAM DESIGN
+***************************
+Name=SHILVY K K
+USER EDUCATION
+QUERY SERVICES
+***************************
+Name=ALFRIN LUIZ
+GEN SYSTEM SERVICES
+OPERATION SUPPORT
+***************************
+Name=OSHINA ANTONY
+W L PROGRAMMING
+ADMIN SERVICES
+***************************
+Name=BINCY PAUL
+GENERAL AD SYSTEMS
+***************************
+Name=ANAMIKA PAUL
+GENERAL AD SYSTEMS
+OPERATION
+***************************
+Name=ANEESH DENNY
+GENERAL AD SYSTEMS
+SYSTEMS SUPPORT
+***************************
+Name=DONA ANICE SIBY
+***************************
+Name=JUNAID K V
+W L PROGRAM DESIGN
+***************************
+Name=CHRISTEENA THOMAS
+W L PROGRAM DESIGN
+***************************
+Name=JEFFIN DOMINIC
+ADMIN SERVICES
+***************************
+Name=JEWEL BIJOY
+W L ROBOT DESIGN
+SYSTEMS SUPPORT
+GEN SYSTEM SERVICES
+***************************
+Name=MELLOW REEBA THOMAS
+GEN SYSTEM SERVICES
+***************************
+Name=JOHN VARGHESE
+***************************
+Name=ASHREENA HASSAN
+***************************
+Name=VISHAK VIJAYAKUMAR
+WELD LINE PLANNING
+***************************
+Name=MERLIN M.D
+W L ROBOT DESIGN
+***************************
+Name=MARIA JOHN
+***************************
+Name=VISHALAKSHI V PRABHU
+PAYROLL PROGRAMMING
+***************************
+Name=ANGEL PAUL
+PAYROLL PROGRAMMING
+***************************
+Name=RIYA TONEY
+USER EDUCATION
+***************************
+Name=PRIYA TOMY
+QUERY SERVICES
+USER EDUCATION
+***************************
+Name=ARYAMOL ASOKAN
+USER EDUCATION
+***************************
+Name=GEO GEORGE
+***************************
+Name=JIMMY THOMSON
+OPERATION
+***************************
+Name=ALAN PAYYAPPILLY
+SCP SYSTEM SUPPORT
+***************************
+Name=BEN PETER MATHEW
+OPERATION SUPPORT
+***************************
+Name=KRISHNANUNNI S
+SCP SYSTEM SUPPORT
+***************************
+Name=AHALYA V A
+APPLICATIONS SUPPORT
+WELD LINE AUTOMATION
+***************************
+Name=ANNA
+W L PROGRAMMING
+***************************
+
+PL/SQL procedure successfully completed.

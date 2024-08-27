@@ -1,0 +1,37 @@
+CREATE OR REPLACE TRIGGER weekdays
+BEFORE INSERT OR UPDATE OR DELETE ON Employee
+FOR EACH ROW
+DECLARE
+    current_day NUMBER;
+    current_time NUMBER;
+BEGIN
+ 
+    current_day := TO_NUMBER(TO_CHAR(SYSDATE, 'D'));
+    current_time := TO_NUMBER(TO_CHAR(SYSDATE, 'HH24MI'));
+    IF current_day >= 2 AND current_day <= 6
+    AND current_time >= 830 AND current_time <= 1830 THEN
+        NULL;
+    ELSE
+        
+        DBMS_OUTPUT.PUT_LINE('Warning: DML operations on the Employee table are only allowed on weekdays from 8:30 AM to 6:30 PM.');
+        RAISE_APPLICATION_ERROR(-20002, 'Invalid operation time.');
+    END IF;
+END;
+/
+
+
+
+output:
+
+SQL> @ "C:\Users\KHADEEJA C N\Desktop\record 2023_dbms\plsql\week.sql"
+
+Trigger created.
+
+SQL> update empl set salary=4500 where empno='E0340';
+Warning: DML operations on the Employee table are only allowed on weekdays from 8:30 AM to 6:30 PM.
+update employee set salary=4500 where empno='E0340'
+       *
+ERROR at line 1:
+ORA-20002: Invalid operation time.
+ORA-06512: at "SYSTEM.WEEKDAYS", line 17
+ORA-04088: error during execution of trigger 'SYSTEM.WEEKDAYS'
